@@ -32,8 +32,11 @@ end
 server.mount_proc '/' do |req, res|
   case req.path
   when '/'
+    puts "---   CREATE   ---"
     contr = ExampleController.new(req, res).create
+    puts "--- DONE CREATE ---"
   when '/new'
+    puts "NEW"
     contr = ExampleController.new(req, res).new
   end
 end
