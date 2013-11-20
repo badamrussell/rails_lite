@@ -6,8 +6,8 @@ require 'active_support/core_ext'
 class ControllerBase
   attr_reader :params
 
-  def initialize(req, res)#, route_params = "/")
-    @params = Params.new(req)
+  def initialize(req, res, route_params = {})
+    @params = Params.new(req, route_params)
 
     @req = req
     @res = res
@@ -36,7 +36,6 @@ class ControllerBase
     @res.body = content
     @already_built_response = true
 
-
     session.store_session(@res)
   end
 
@@ -50,5 +49,8 @@ class ControllerBase
   end
 
   def invoke_action(name)
+    self.send(name.to_sym)
+
+    render name.to_sym unless @already_built_response
   end
 end
