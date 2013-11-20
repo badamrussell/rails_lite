@@ -1,0 +1,29 @@
+<%= render partial: "layouts/top", locals: { tempvar: "hello" } %>
+
+<% if flash[:errors] %>
+  <% flash[:errors].each do |err| %>
+    <%= err %>
+  <% end %>
+<% end %>
+<hr>
+
+<%= form_authenticity_token %>
+
+
+<p>
+<%= user_url %>
+</p>
+<hr>
+
+<h1>User show page</h1>
+
+<p>
+<%= link_to "HEY A LINK", users_url %>
+</p>
+
+<p>
+<%= button_to "LOOK A BUTTON", users_url, method: :delete %>
+</p>
+
+<h3> BOTTOM <h3>
+

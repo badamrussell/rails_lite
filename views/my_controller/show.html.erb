@@ -1,1 +1,22 @@
+<% if flash[:errors] %>
+  <% flash[:errors].each do |err| %>
+    <%= err %>
+  <% end %>
+<% end %>
+
 <%= (1..10).to_a.join(", ") %>
+
+<hr>
+<p>
+<%= user_url %>
+</p>
+
+<p>
+<%= link_to "HEY A LINK", users_url %>
+</p>
+
+<p>
+<%= button_to "LOOK A BUTTON", uses_url, method: :delete %>
+</p>
+
+<h3> BOTTOM <h3>

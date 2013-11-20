@@ -18,7 +18,7 @@ class StatusController < ControllerBase
   end
 
   def show
-    render_content("status ##{params[:id]}", "text/text")
+    render_content("status #{params[:id]}", "text/text")
   end
 end
 

@@ -2,9 +2,13 @@ require 'erb'
 require_relative 'params'
 require_relative 'session'
 require 'active_support/core_ext'
+require_relative 'flash'
+require_relative 'htmlHelper'
+require 'ostruct'
 
 class ControllerBase
   attr_reader :params
+  include HTMLHelper
 
   def initialize(req, res, route_params = {})
     @params = Params.new(req, route_params)
@@ -13,8 +17,27 @@ class ControllerBase
     @res = res
   end
 
+  def self.add_route(path_prefixes, base_url)
+    path_prefixes.each do |name|
+      define_method("#{name}_url") do |*ids|
+        "#{base_url}/#{name}" << (ids.empty? ? "" : "/#{ids.join("&")}")
+      end
+      define_method("#{name}_path") do |*ids|
+        "/#{name}" << (ids.empty? ? "" : "/#{ids.join("&")}")
+      end
+   end
+ end
+
+  def form_authenticity_token
+    session.form_authenticity_token
+  end
+
   def session
     @session ||= Session.new(@req)
+  end
+
+  def flash
+    @flash ||= Flash.new
   end
 
   def already_rendered?
@@ -40,12 +63,23 @@ class ControllerBase
   end
 
   def render(template_name)
-    controller_name = self.class.to_s.underscore
-    contents = File.read "views/#{controller_name}/#{template_name}.html.erb"
+    if template_name.is_a?(Hash)
 
-    html_erb = ERB.new(contents).result(binding)
+      contents = File.read "views/#{template_name[:partial]}.html.erb"
+      temp_binder = OpenStruct.new(template_name[:locals])
+      def temp_binder.render
+        binding
+      end
 
-    render_content(html_erb, "text/html")
+      html_erb = ERB.new(contents).result(temp_binder.render)
+    else
+      controller_name = self.class.to_s.underscore
+      contents = File.read "views/#{controller_name}/#{template_name}.html.erb"
+
+      html_erb = ERB.new(contents).result(binding)
+
+      render_content(html_erb, "text/html")
+    end
   end
 
   def invoke_action(name)
