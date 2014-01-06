@@ -32,20 +32,20 @@ It uses the ERB class along with Ruby's binding class to generate rendered conte
 
 
 ##Core Features
--Controller
--Template Rendering
--Router
--Storing Params and Sessions
--render partials
--nested Routing
++ Controller
++ Template Rendering
++ Router
++ Storing Params and Sessions
++ render partials
++ nested Routing
 
 ##Other Stuff
--WEBrick to simulate
--Flash
--CSRF
--URL Helpers
--link_to and button_to helpers
++ WEBrick to simulate
++ Flash
++ CSRF
++ URL Helpers
++ link_to and button_to helpers
 
 ## Future Features
--validations
--has_many
++ validations
++ has_many
