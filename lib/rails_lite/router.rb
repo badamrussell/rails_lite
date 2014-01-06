@@ -9,9 +9,6 @@ class Route
     @controller_class = controller_class
     @action_name = action_name
 
-
-
-
     names = make_route_names
     base_url = "http://0.0.0.0.3000"
     controller_class::add_route(names, base_url)
