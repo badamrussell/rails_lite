@@ -1,4 +1,4 @@
-miniRails
+Diet Rails
 ==========
 ###Ruby
 
